@@ -33,8 +33,8 @@ ENV HBNB_MYSQL_HOST=localhost
 ENV HBNB_MYSQL_DB=hbnb_dev_db
 ENV HBNB_TYPE_STORAGE=db
 
-# Expose port 5001 for Flask app
-EXPOSE 5001
+# Expose port 5001 and 5000 for Flask app
+EXPOSE 5001 5000
 
 # Create a directory for your project in the container
 WORKDIR /app
