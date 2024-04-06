@@ -15,26 +15,23 @@ RUN apt-get update && \
     python3 \
     python3-pip \
     python3-lxml \
-    mysql-client && \
+    python-dev \
+    libmysqlclient-dev \
+    mysql-client \
+    mysql-server \
+    pkg-config && \
     pip3 install \
     flask \
     flask_cors \
     flasgger \
     jsonschema==3.0.1 \
     pathlib2 \
+    mysqlclient \
     sqlalchemy && \
     echo 'export PS1="${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u@\h\[\033[00m\]\[\033[01;34m\][\[\033[00m\]\[\033[01;33m\]\W\[\033[00m\]\[\033[01;34m\]]\[\033[00m\]\$ "' >> /root/.bashrc
 
-
-# Set environment variables for MySQL
-ENV HBNB_MYSQL_USER=hbnb_dev
-ENV HBNB_MYSQL_PWD=hbnb_dev_pwd
-ENV HBNB_MYSQL_HOST=localhost
-ENV HBNB_MYSQL_DB=hbnb_dev_db
-ENV HBNB_TYPE_STORAGE=db
-
-# Expose port 5001 for Flask app
-EXPOSE 5001
+# Expose port 5001 and 5000 for Flask app
+EXPOSE 5001 5000
 
 # Create a directory for your project in the container
 WORKDIR /app
