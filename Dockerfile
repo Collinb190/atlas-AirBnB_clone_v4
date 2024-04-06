@@ -18,6 +18,7 @@ RUN apt-get update && \
     mysql-client \
     mysql-server && \
     pip3 install \
+    mysqlclient \
     flask \
     flask_cors \
     flasgger \
