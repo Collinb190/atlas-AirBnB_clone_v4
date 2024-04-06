@@ -15,15 +15,18 @@ RUN apt-get update && \
     python3 \
     python3-pip \
     python3-lxml \
+    python-dev \
+    libmysqlclient-dev \
     mysql-client \
-    mysql-server && \
+    mysql-server \
+    pkg-config && \
     pip3 install \
-    mysqlclient \
     flask \
     flask_cors \
     flasgger \
     jsonschema==3.0.1 \
     pathlib2 \
+    mysqlclient \
     sqlalchemy && \
     echo 'export PS1="${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u@\h\[\033[00m\]\[\033[01;34m\][\[\033[00m\]\[\033[01;33m\]\W\[\033[00m\]\[\033[01;34m\]]\[\033[00m\]\$ "' >> /root/.bashrc
 
