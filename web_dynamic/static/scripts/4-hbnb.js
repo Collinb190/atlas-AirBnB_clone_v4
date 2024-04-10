@@ -1,7 +1,10 @@
 $(document).ready(function () {
+  let myId = [];
+
   $('input[type=checkbox]').click(function () {
     const myListName = [];
-    const myId = [];
+    myId = [];
+
     $('input[type=checkbox]:checked').each(function () {
       myListName.push($(this).attr('data-name'));
       myId.push($(this).attr('data-id'));
@@ -13,32 +16,44 @@ $(document).ready(function () {
     }
     console.log(myId);
   });
+
+  $('.filters button').click(function (event) {
+    event.preventDefault();
+
+    $('.places').text('');
+
+    const obj = {};
+    obj.amenities = myId;
+    listPlaces(JSON.stringify(obj));
+  });
+
+  $.ajax({
+    url: 'http://localhost:5001/api/v1/status/',
+    type: 'GET',
+    dataType: 'json',
+    success: function (json) {
+      $('#api_status').addClass('available');
+    },
+
+    error: function (xhr, status) {
+      console.log('error ' + xhr);
+    }
+  });
+
+  listPlaces();
 });
 
-
-$.ajax({
-  url: 'http://localhost:5001/api/v1/status/',
-  type: 'GET',
-  dataType: 'json',
-  success: function (json) {
-    $('#api_status').addClass('available');
-  },
-
-  error: function (xhr, status) {
-    console.log('error ' + status);
-  }
-
-});
-
-$.ajax({
-  type: 'POST',
-  url: 'http://localhost:5001/api/v1/places_search',
-  dataType: 'json',
-  data: '{}',
-  contentType: 'application/json; charset=utf-8',
-  success: function (places) {
-    for (let i = 0; i < places.length; i++) {
-      $('.places').append(`<article>
+function listPlaces (amenities = '{}') {
+  $.ajax({
+    type: 'POST',
+    url: 'http://localhost:5001/api/v1/places_search',
+    dataType: 'json',
+    data: amenities,
+    contentType: 'application/json; charset=utf-8',
+    success: function (places) {
+      for (let i = 0; i < places.length; i++) {
+        $('.places').append(`
+<article>
 <div class="title_box">
 <h2> ${places[i].name}</h2>
 <div class="price_by_night"> ${places[i].price_by_night} </div>
@@ -58,9 +73,10 @@ ${places[i].description}
 </div>
 </article>
 `);
+      }
+    },
+    error: function (xhr, status) {
+      console.log('error ' + status);
     }
-  },
-  error: function (xhr, status) {
-    console.log('error ' + status);
-  }
-});
+  });
+}
